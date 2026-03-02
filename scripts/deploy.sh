@@ -1,6 +1,10 @@
 #!/bin/bash
 set +e
 
+# Default region for all AWS CLI and CDK operations
+export AWS_DEFAULT_REGION="us-west-2"
+export CDK_DEFAULT_REGION="us-west-2"
+
 CONTROL_PLANE_STACK="ControlPlaneStack"
 BOOTSTRAP_STACK="saas-genai-workshop-bootstrap-template"
 CORE_UTILS_STACK="saas-genai-workshop-core-utils-stack"

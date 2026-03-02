@@ -24,9 +24,9 @@ ATHENA_S3_OUTPUT = os.getenv("ATHENA_S3_OUTPUT")
 CUR_DATABASE_NAME = os.getenv("CUR_DATABASE_NAME")
 CUR_TABLE_NAME = os.getenv("CUR_TABLE_NAME")
 RETRY_COUNT = 100
-EMBEDDING_TITAN_INPUT_TOKENS_LABEL="USW2-TitanEmbeddingsG2-Text-input-tokens"
-TEXTLITE_INPUT_TOKENS_LABEL="USW2-ClaudeSonnet46-input-tokens"
-TEXTLITE_OUTPUT_TOKENS_LABEL="USW2-ClaudeSonnet46-output-tokens"
+EMBEDDING_TITAN_INPUT_TOKENS_LABEL="USW2-TitanEmbeddingsG1-Text-input-tokens"
+TEXTLITE_INPUT_TOKENS_LABEL="USW2-TitanTextG1-Lite-input-tokens"
+TEXTLITE_OUTPUT_TOKENS_LABEL="USW2-TitanTextG1-Lite-output-tokens"
 MODEL_INVOCATION_LOG_GROUPNAME= os.getenv("MODEL_INVOCATION_LOG_GROUPNAME")
 
 class InvokeModelTenantCost():
@@ -313,6 +313,7 @@ class InvokeModelTenantCost():
 
     def __get_tenant_cost(self, key, total_service_cost, tenant_attribution_percentage_json):
         tenant_data = tenant_attribution_percentage_json.get(key, 0)
+        service_cost = total_service_cost.get(key, 0)
         # Bedrock service cost is charged per 1000 tokens
-        tenant_cost = Decimal(tenant_data) * Decimal(total_service_cost[key])/1000
+        tenant_cost = Decimal(tenant_data) * Decimal(service_cost)/1000
         return tenant_cost         
