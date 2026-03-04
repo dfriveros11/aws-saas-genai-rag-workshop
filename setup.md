@@ -24,9 +24,9 @@ finch --version
 ## Paso 2 — Clonar el repositorio
 
 ```bash
-mkdir -p "/Users/lancdieg/Documents/SA work/lancdieg-notes/Clients/2026/Viajes/2026-03-02-viaje-medellin/Q10"
-cd "/Users/lancdieg/Documents/SA work/lancdieg-notes/Clients/2026/Viajes/2026-03-02-viaje-medellin/Q10"
-git clone https://github.com/aws-samples/aws-saas-genai-rag-workshop.git
+mkdir -p ~/workshop
+cd ~/workshop
+git clone https://github.com/dfriveros11/aws-saas-genai-rag-workshop.git
 cd aws-saas-genai-rag-workshop
 ```
 
