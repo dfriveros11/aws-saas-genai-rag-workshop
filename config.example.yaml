@@ -1,0 +1,16 @@
+# Workshop Configuration
+# Copy this file to config.yaml and fill in your values.
+# config.yaml is gitignored — never commit it.
+
+# AWS account and region
+aws_account_id: "<YOUR_AWS_ACCOUNT_ID>"
+aws_region: "us-west-2"
+aws_profile: "<YOUR_AWS_PROFILE>"
+
+# CDK deployment
+cdk_default_account: "<YOUR_AWS_ACCOUNT_ID>"
+cdk_default_region: "us-west-2"
+
+# Control plane admin
+system_admin_email: "<YOUR_ADMIN_EMAIL>"
+# system_admin_role_name defaults to "SystemAdmin" if not set

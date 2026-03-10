@@ -20,7 +20,7 @@ else
 fi
 
 # Preprovision base infrastructure
-cd ../cdk
+cd ../../cdk
 npm install
 
 npx cdk bootstrap
@@ -35,8 +35,8 @@ S3_TENANT_SOURCECODE_BUCKET_URL=$(aws cloudformation describe-stacks --stack-nam
 echo "S3 bucket url: $S3_TENANT_SOURCECODE_BUCKET_URL"
 
 # Step 3: Define folder to upload and target S3 bucket
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"   # Get the directory of the install.sh script
-FOLDER_PATH="$(dirname "$SCRIPT_DIR")"       # Get the parent folder of the script
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"   # Get the directory of the install.sh script (bash/)
+FOLDER_PATH="$(dirname "$(dirname "$SCRIPT_DIR")")"  # Go up two levels: bash/ → scripts/ → src/
 
 # Step 4: Upload the folder to the S3 bucket
 echo "Uploading folder $FOLDER_PATH to S3 $S3_TENANT_SOURCECODE_BUCKET_URL"

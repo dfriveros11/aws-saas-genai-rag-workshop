@@ -1,17 +1,44 @@
 #!/bin/bash
 set +e
 
-# Default region for all AWS CLI and CDK operations
-export AWS_DEFAULT_REGION="us-west-2"
-export CDK_DEFAULT_REGION="us-west-2"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CDK_DIR="$SCRIPT_DIR/../../cdk"
+ROOT_DIR="$SCRIPT_DIR/../.."
+
+# ─────────────────────────────────────────────────────────────
+# Load configuration from config.yaml or config.example.yaml
+# ─────────────────────────────────────────────────────────────
+CONFIG_FILE="$ROOT_DIR/config.yaml"
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    CONFIG_FILE="$ROOT_DIR/config.example.yaml"
+    echo "⚠️  config.yaml not found — using config.example.yaml"
+    echo "   Run: cp config.example.yaml config.yaml and fill in your values."
+fi
+
+# Parse a YAML value: get_value "key" → value (strips quotes)
+get_value() {
+    grep "^${1}:" "$CONFIG_FILE" | sed 's/^[^"]*"\([^"]*\)".*/\1/' | head -1
+}
+
+AWS_REGION=$(get_value "aws_region")
+AWS_ACCOUNT=$(get_value "aws_account_id")
+AWS_PROFILE_NAME=$(get_value "aws_profile")
+ADMIN_EMAIL=$(get_value "system_admin_email")
+
+export AWS_DEFAULT_REGION="${AWS_REGION:-us-west-2}"
+export CDK_DEFAULT_REGION="${AWS_REGION:-us-west-2}"
+export CDK_DEFAULT_ACCOUNT="${AWS_ACCOUNT}"
+export CDK_PARAM_SYSTEM_ADMIN_EMAIL="${ADMIN_EMAIL}"
+
+if [[ -n "$AWS_PROFILE_NAME" && "$AWS_PROFILE_NAME" != *"<"* ]]; then
+    export AWS_PROFILE="$AWS_PROFILE_NAME"
+fi
+
+echo "Config: region=$AWS_DEFAULT_REGION account=$CDK_DEFAULT_ACCOUNT profile=${AWS_PROFILE:-default} email=$CDK_PARAM_SYSTEM_ADMIN_EMAIL"
 
 CONTROL_PLANE_STACK="ControlPlaneStack"
 BOOTSTRAP_STACK="saas-genai-workshop-bootstrap-template"
 CORE_UTILS_STACK="saas-genai-workshop-core-utils-stack"
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CDK_DIR="$SCRIPT_DIR/../cdk"
-ROOT_DIR="$SCRIPT_DIR/.."
 
 # ─────────────────────────────────────────────────────────────
 # Helper: deploy a CDK stack

@@ -1,0 +1,6 @@
+# Local config (contains account IDs, profiles, emails)
+config.yaml
+
+# CDK build artifacts
+cdk/cdk.out/
+cdk/node_modules/

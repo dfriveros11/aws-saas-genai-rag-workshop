@@ -31,7 +31,7 @@ fi
 
 # Navigate to the directory containing the CDK app
 # Replace 'path/to/cdk/app' with the actual path to your CDK application
-cd ../cdk
+cd ../../cdk
 
 echo "Starting cleanup process..."
 
